@@ -1,0 +1,62 @@
+<html>
+<head>
+
+</head>
+    <body>
+        <button onclick="battle1('attack');">Attack</button>
+        <button onclick="battle1('defend');">Defend</button>
+        <div id='output'></div>
+        
+        
+<script>
+
+var userhp = 100;
+var slime1hp = 20;
+var outputElement = document.getElementById('output');
+
+var DamCap = function(from,to){
+	return ~~(Math.random() *(to-from+1)+from);
+}
+var sendOutput = function(output, addOrReplace){
+	if(addOrReplace == 'replace'){
+		outputElement.innerHTML = '<p>' + output + '</p>';
+	}
+	if(addOrReplace == 'add'){
+		outputElement.innerHTML += '<p>' + output + '</p>';
+	}
+}
+
+var battle1 = function(input){
+	while(userhp>=1&&slime1hp>=1){
+        switch(input) {
+            case 'attack':
+				var userDam = DamCap(5,10);
+                slime1hp = slime1hp - userDam;
+                sendOutput("You attacked! " +userDam, 'replace');
+                sendOutput("Slime has " +slime1hp +" HP left!", 'add');
+                break;
+            case 'defend':
+                var userDef = 5;
+                sendOutput("You defended! -" +userDef +" damage!", 'replace');
+                userhp = userhp +userDef;
+                break;
+            default:
+                sendOutput("You did nothing!", 'replace');
+                break;
+		}
+		if(slime1hp>=1){
+			var slime1Dam = DamCap(10,20);
+			userhp = userhp -slime1Dam;
+			sendOutput("Slime attacked! " +slime1Dam, 'add');
+			sendOutput("You have " +userhp +" left!", 'add')
+		}
+	}
+	if(userhp>=1){
+	sendOutput("You Won!",'replace');
+	} else {
+	sendOutput("You Lost...",'replace');
+}
+
+		</script>
+    </body>
+</html>
